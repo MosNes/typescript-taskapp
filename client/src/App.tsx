@@ -2,11 +2,11 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-
-function App() {
+// React.FC is functional component
+const  App: React.FC =  () => {
   return (
     <div className="App">
-      Hello Worldo
+      <span className="heading">Task Slayer</span>
     </div>
   );
 }

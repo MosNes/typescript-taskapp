@@ -76,6 +76,10 @@
   font-size: 20px;
 }
 
+.todosSingleText:focus {
+  outline: none;
+}
+
 /* cursor: pointer makes the curser change to a pointer when hovered over */
 .icon {
   margin-left: 10px;

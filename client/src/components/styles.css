@@ -34,6 +34,7 @@
   color: white;
   transition: 0.2s all;
   box-shadow: 0 0 10px black;
+  cursor: pointer;
 }
 
 /* lightens the color when hovered over */
@@ -56,11 +57,11 @@
 
 .todosSingle {
   display: flex;
+  width: 29.5%;
   border-radius: 5px;
   padding: 20px;
-  margin-top: 15px;
-  background-image: url("https://img.freepik.com/free-photo/crumpled-yellow-paper-background-close-up_60487-2390.jpg?size=626&ext=jpg");
-  transition: 0.2s;
+  margin-top:15px;
+  background-image: url("https://img.freepik.com/free-photo/crumpled-yellow-paper-background-close-up_60487-2390.jpg?size=626&ext=jpg")
 }
 
 .todosSingleText {
@@ -68,4 +69,11 @@
   padding: 5px;
   border: none;
   font-size: 20px;
+}
+
+/* cursor: pointer makes the curser change to a pointer when hovered over */
+.icon {
+  margin-left: 10px;
+  font-size: 25px;
+  cursor: pointer;
 }

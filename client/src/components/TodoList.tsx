@@ -2,7 +2,9 @@ import React from 'react'
 import './styles.css'
 import { Todo } from '../model';
 import SingleTodo from './SingleTodo';
-import { Droppable } from 'react-beautiful-dnd';
+// import { Droppable } from 'react-beautiful-dnd';
+// This helper is needed for react-beautiful-dnd to work with React 18 Strict Mode
+import { StrictModeDroppable as Droppable } from '../helpers/StrictModeDroppable';
 
 interface Props {
   todos: Todo[];
@@ -35,7 +37,7 @@ const TodoList: React.FC<Props> = ({ todos, setTodos, completedTodos, setComplet
           (provided) => (
             <div className="todos remove" ref={provided.innerRef} {...provided.droppableProps}>
               <span className="todosHeading">Completed Tasks</span>
-              {todos.map( (todo, index) => (
+              {completedTodos.map( (todo, index) => (
                 <SingleTodo index={index} todo={todo} key={todo.id} todos={completedTodos} setTodos={setCompletedTodos} />
               ))}
               {provided.placeholder}

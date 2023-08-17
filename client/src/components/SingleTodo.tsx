@@ -2,14 +2,16 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Todo } from '../model';
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
 import { MdDone } from 'react-icons/md';
+import { Draggable } from 'react-beautiful-dnd';
 
 type Props = {
     todo: Todo,
     todos: Todo[],
     setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
+    index: number,
 }
 
-const SingleTodo = ({ todo, todos, setTodos }: Props) => {
+const SingleTodo = ({ todo, todos, setTodos, index }: Props) => {
 
     // manages state of edit functionality
 
@@ -37,7 +39,7 @@ const SingleTodo = ({ todo, todos, setTodos }: Props) => {
     const handleEdit = (e: React.FormEvent, id: number) => {
         e.preventDefault();
         // map through todos array and if todo.id matches id passed in, return todo with todo property changed to editValue, else return todo
-        setTodos(todos.map(todo => todo.id===id?{...todo, todo: editValue}:todo));
+        setTodos(todos.map(todo => todo.id === id ? { ...todo, todo: editValue } : todo));
         // turns off edit mode
         setEdit(false);
     };
@@ -53,47 +55,60 @@ const SingleTodo = ({ todo, todos, setTodos }: Props) => {
     }, [edit])
 
     return (
-        //on submit of this form, call handleEdit function
-        <form className='todosSingle'
-            onSubmit={(e) => { handleEdit(e, todo.id) }}
-        >
 
-            {/* if edit mode is enabled, show input element */}
-            {edit ? (
-                <input
-                    ref={inputRef}
-                    className='todosSingleText'
-                    value={editValue}
-                    onChange={(e) => setEditValue(e.target.value)}
-                />
-            // else, show span element
-            ) : (
-                todo.isDone ? (
-                    <span className='todosSingleText done'>
-                        {todo.todo}
-                    </span>
-                ) : (
-                    <span className='todosSingleText'>
-                        {todo.todo}
-                    </span>
+        <Draggable draggableId={todo.id.toString()} index={index}>
+
+            {
+                (provided) => (
+                    //on submit of this form, call handleEdit function
+                    <form className='todosSingle'
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                        onSubmit={(e) => { handleEdit(e, todo.id) }}
+                    >
+
+                        {/* if edit mode is enabled, show input element */}
+                        {edit ? (
+                            <input
+                                ref={inputRef}
+                                className='todosSingleText'
+                                value={editValue}
+                                onChange={(e) => setEditValue(e.target.value)}
+                            />
+                            // else, show span element
+                        ) : (
+                            todo.isDone ? (
+                                <span className='todosSingleText done'>
+                                    {todo.todo}
+                                </span>
+                            ) : (
+                                <span className='todosSingleText'>
+                                    {todo.todo}
+                                </span>
+                            )
+                        )
+
+                        }
+
+
+                        {/* div to hold icons */}
+                        <div>
+                            <span className="icon" onClick={() => {
+                                if (!edit && !todo.isDone) {
+                                    setEdit(!edit)
+                                }
+                            }
+                            }><AiFillEdit /></span>
+                            <span className="icon" onClick={() => handleDelete(todo.id)}><AiFillDelete /></span>
+                            <span className="icon" onClick={() => handleDone(todo.id)}><MdDone /></span>
+                        </div>
+                    </form>
                 )
-            )
-
             }
 
+        </Draggable>
 
-            {/* div to hold icons */}
-            <div>
-                <span className="icon" onClick={() => {
-                    if (!edit && !todo.isDone) {
-                        setEdit(!edit)
-                    }
-                }
-                }><AiFillEdit /></span>
-                <span className="icon" onClick={() => handleDelete(todo.id)}><AiFillDelete /></span>
-                <span className="icon" onClick={() => handleDone(todo.id)}><MdDone /></span>
-            </div>
-        </form>
     )
 }
 

@@ -14,12 +14,16 @@ const TodoList: React.FC<Props> = ({ todos, setTodos }) => {
     <div className="container">
       <div className="todos">
         <span className="todosHeading">New Tasks</span>
+        {/* map through each todo in the array and render a SingleTodo component for it */}
       {todos.map(todo => (
             <SingleTodo todo={todo} key={todo.id} todos={todos} setTodos={setTodos}/>
         ))}
       </div>
       <div className="todos remove">
         <span className="todosHeading">Completed Tasks</span>
+        {todos.map(todo => (
+            <SingleTodo todo={todo} key={todo.id} todos={todos} setTodos={setTodos}/>
+        ))}
       </div>
     </div>
   )
